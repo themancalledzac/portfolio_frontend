@@ -3,7 +3,7 @@
 const { ApolloClient, InMemoryCache } = require("@apollo/client");
 
 const client = new ApolloClient({
-  uri: "mongodb://localhost:27017/portfolio_backend",
+  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 });
 
