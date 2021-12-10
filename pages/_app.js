@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+// import "../components/styles/globals.css";
 import {
   ApolloClient,
   InMemoryCache,
