@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { gql, useQuery } from "@apollo/client";
 import client from "../apollo-client";
+import Link from "next/link";
 
 function Home() {
   return (
@@ -19,8 +20,9 @@ function Home() {
         <br></br>
         ... a. Web Design
         <br></br>
-        ... b. Photography
+        ... b.asldkjflkjasdf
       </p>
+      <Link href='/photography'>Photography</Link>
     </div>
   );
 }
