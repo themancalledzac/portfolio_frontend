@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "./Header";
+import { usePageState } from "../lib/pageState";
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -48,6 +49,7 @@ const InnerStyles = styled.div`
 `;
 
 export default function Page({ children }) {
+  const { pageState, togglePhoto, toggleWeb } = usePageState();
   return (
     <div>
       <GlobalStyles />

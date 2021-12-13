@@ -9,6 +9,7 @@ import {
 import client from "../apollo-client";
 import { onError } from "@apollo/client/link/error";
 import Page from "../components/page";
+import { PageStateProvider } from "../lib/pageState";
 
 const errorLink = onError(({ graphqlErrors, networkError }) => {
   if (graphqlErrors) {
@@ -26,9 +27,11 @@ function MyApp({ Component, pageProps }) {
   return (
     // we wrap our entire project in our ApolloProvider, which lets our entire application access our graphql api
     <ApolloProvider client={client}>
-      <Page>
-        <Component {...pageProps} />
-      </Page>
+      <PageStateProvider>
+        <Page>
+          <Component {...pageProps} />
+        </Page>
+      </PageStateProvider>
     </ApolloProvider>
   );
 }
