@@ -3,8 +3,37 @@ import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
 import client from "../apollo-client";
 import Link from "next/link";
+import Router from "next/router";
+import { usePageState } from "../lib/pageState";
+import { useEffect } from "react";
 
 function Home() {
+  const {
+    indexPageState,
+    photoPageState,
+    webPageState,
+    togglePhoto,
+    toggleWeb,
+  } = usePageState();
+
+  useEffect(() => {
+    if (!indexPageState) {
+      console.log(indexPageState, photoPageState, webPageState);
+      if (!photoPageState) {
+        return Router.push("/web");
+      } else {
+        return Router.push("/photography");
+      }
+    }
+  }, [indexPageState, photoPageState, webPageState]);
+  function selectPage(page) {
+    if (page === "web") {
+      toggleWeb();
+    } else if (page === "photo") {
+      togglePhoto();
+    }
+  }
+
   return (
     <div
       style={{
@@ -12,16 +41,13 @@ function Home() {
       }}
     >
       <h1>Launch Page</h1>
-      <p>
-        We can have a splash page that simply consists of a few things:
-        <br></br>
-        1. a single card in the middle of a page, with two options:
-        <br></br>
-        ... a. Web Design
-        <br></br>
-        ... b.asldkjflkjasdf
-      </p>
-      <Link href='/photography'>Photography</Link>
+
+      <button onClick={selectPage("web")} href='/web'>
+        Web Design
+      </button>
+      <button onClick={selectPage("photo")} href='/photography'>
+        Photography
+      </button>
     </div>
   );
 }
