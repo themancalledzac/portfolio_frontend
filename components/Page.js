@@ -49,7 +49,16 @@ const InnerStyles = styled.div`
 `;
 
 export default function Page({ children }) {
-  const { pageState, togglePhoto, toggleWeb } = usePageState();
+  // const {
+  //   indexPageState,
+  //   photoPageState,
+  //   webPageState,
+  //   togglePhoto,
+  //   toggleWeb,
+  // } = usePageState();
+  // if (indexPageState === true) {
+  //   return <p>pageStateTrue</p>;
+  // }
   return (
     <div>
       <GlobalStyles />

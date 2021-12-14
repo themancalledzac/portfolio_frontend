@@ -17,13 +17,11 @@ function Home() {
   } = usePageState();
 
   useEffect(() => {
-    if (!indexPageState) {
-      console.log(indexPageState, photoPageState, webPageState);
-      if (!photoPageState) {
-        return Router.push("/web");
-      } else {
-        return Router.push("/photography");
-      }
+    if (photoPageState) {
+      return Router.push("/photography");
+    }
+    if (webPageState) {
+      return Router.push("/web");
     }
   }, [indexPageState, photoPageState, webPageState]);
   function selectPage(page) {

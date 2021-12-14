@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { useEffect } from "react";
 import styled from "styled-components";
+import { usePageState } from "../lib/pageState";
 import NavStyles from "./styles/NavStyles";
 
 const Logo = styled.div`
@@ -17,16 +19,52 @@ const Logo = styled.div`
     padding: 0.5rem 1rem;
   }
 `;
+// TODO: --------------------------------------------------
+//       --- As A User,
+//       --- I want to have access to:
+//           --- Github
+//           --- LinkedIn
+//           --- Web Design Page / Photography page
+
+// TODO: --------------------------------------------------
 
 export default function Nav() {
-  return (
-    <NavStyles>
-      <Logo>
-        <Link href='/photography'>Photography</Link>
-      </Logo>
-      <Logo>
-        <Link href='/instagram'>Instagram</Link>
-      </Logo>
-    </NavStyles>
-  );
+  const { photoPageState, webPageState, toggleWeb, togglePhoto } =
+    usePageState();
+
+  if (!photoPageState && !webPageState) return <p>Loading...</p>;
+
+  if (photoPageState) {
+    return (
+      <NavStyles>
+        <Logo>
+          <a href='https://github.com/themancalledzac'>Github</a>
+        </Logo>
+        <Logo>
+          <Link href='https://linkedin.com/in/zacedens'>LinkedIn</Link>
+        </Logo>
+        <Logo>
+          <a onClick={togglePhoto} href='/web'>
+            Web Design
+          </a>
+        </Logo>
+      </NavStyles>
+    );
+  } else if (webPageState) {
+    return (
+      <NavStyles>
+        <Logo>
+          <Link href='https://github.com/themancalledzac'>Github</Link>
+        </Logo>
+        <Logo>
+          <Link href='https://linkedin.com/in/zacedens'>LinkedIn</Link>
+        </Logo>
+        <Logo>
+          <a onClick={toggleWeb} href='/photography'>
+            Photography
+          </a>
+        </Logo>
+      </NavStyles>
+    );
+  }
 }

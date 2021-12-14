@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { useEffect } from "react";
 import styled from "styled-components";
+import { usePageState } from "../lib/pageState";
 import Nav from "./Nav";
 
 const Logo = styled.div`
@@ -33,6 +35,9 @@ const NavBar = styled.header`
 `;
 
 export default function Header() {
+  const { photoPageState, webPageState, toggleWeb, togglePhoto } =
+    usePageState();
+
   return (
     <NavBar>
       <div className='bar'>

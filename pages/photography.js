@@ -5,8 +5,10 @@ import { gql, useQuery } from "@apollo/client";
 import client from "../apollo-client";
 import { useEffect } from "react";
 import { GET_SINGLE_IMAGE } from "../queries/getImage";
+import { usePageState } from "../lib/pageState";
 
 function Photography() {
+  const { photoPageState, setPhotoPageState } = usePageState();
   const { loading, error, data } = useQuery(GET_SINGLE_IMAGE, {
     variables: { imageId: "61b29e68159547710a883c9c" },
   });
@@ -15,6 +17,11 @@ function Photography() {
     console.log("effect refreshing with new data");
     console.log({ data });
   }, [data]);
+
+  useEffect(() => {
+    setPhotoPageState(true);
+    console.log("photoPageState:" + photoPageState);
+  }, [photoPageState]);
   //   data?.console.log(data);
   if (loading) return <p>Loading...</p>;
   return (
