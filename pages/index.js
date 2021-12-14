@@ -3,7 +3,7 @@ import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
 import client from "../apollo-client";
 import Link from "next/link";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { usePageState } from "../lib/pageState";
 import { useEffect } from "react";
 
@@ -27,8 +27,10 @@ function Home() {
   function selectPage(page) {
     if (page === "web") {
       toggleWeb();
+      useRouter("/web");
     } else if (page === "photo") {
       togglePhoto();
+      useRouter("/photo");
     }
   }
 
@@ -40,12 +42,12 @@ function Home() {
     >
       <h1>Launch Page</h1>
 
-      <button onClick={selectPage("web")} href='/web'>
+      <a onClick={selectPage("web")} href='/web'>
         Web Design
-      </button>
-      <button onClick={selectPage("photo")} href='/photography'>
+      </a>
+      <a onClick={selectPage("photo")} href='/photography'>
         Photography
-      </button>
+      </a>
     </div>
   );
 }
