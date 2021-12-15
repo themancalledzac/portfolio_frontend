@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { usePageState } from "../lib/pageState";
 import NavStyles from "./styles/NavStyles";
+import Router from "next/router";
 
 const Logo = styled.div`
   background: var(--lightGrey);
@@ -32,6 +33,16 @@ export default function Nav() {
   const { photoPageState, webPageState, toggleWeb, togglePhoto } =
     usePageState();
 
+  async function selectPage(page) {
+    if (page === "web") {
+      await toggleWeb();
+      return Router.push("/web");
+    } else if (page === "photo") {
+      await togglePhoto();
+      return Router.push("/photography");
+    }
+  }
+
   if (!photoPageState && !webPageState) return <p>Loading...</p>;
 
   if (photoPageState) {
@@ -44,9 +55,7 @@ export default function Nav() {
           <Link href='https://linkedin.com/in/zacedens'>LinkedIn</Link>
         </Logo>
         <Logo>
-          <a onClick={togglePhoto} href='/web'>
-            Web Design
-          </a>
+          <a onClick={() => selectPage("web")}>Web Design</a>
         </Logo>
       </NavStyles>
     );
@@ -60,9 +69,7 @@ export default function Nav() {
           <Link href='https://linkedin.com/in/zacedens'>LinkedIn</Link>
         </Logo>
         <Logo>
-          <a onClick={toggleWeb} href='/photography'>
-            Photography
-          </a>
+          <a onClick={() => selectPage("photo")}>Photography</a>
         </Logo>
       </NavStyles>
     );

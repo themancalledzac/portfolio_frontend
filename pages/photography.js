@@ -8,7 +8,8 @@ import { GET_SINGLE_IMAGE } from "../queries/getImage";
 import { usePageState } from "../lib/pageState";
 
 function Photography() {
-  const { photoPageState, setPhotoPageState, indexPageState } = usePageState();
+  const { photoPageState, togglePhoto, setPhotoPageState, indexPageState } =
+    usePageState();
   const { loading, error, data } = useQuery(GET_SINGLE_IMAGE, {
     variables: { imageId: "61b29e68159547710a883c9c" },
   });
@@ -22,6 +23,7 @@ function Photography() {
     setPhotoPageState(true);
     console.log("photoPageState:" + photoPageState);
     console.log("indexpagestate:" + indexPageState);
+    togglePhoto();
   }, [photoPageState, indexPageState]);
   //   data?.console.log(data);
   if (loading) return <p>Loading...</p>;

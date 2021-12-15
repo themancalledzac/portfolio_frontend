@@ -3,7 +3,7 @@ import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
 import client from "../apollo-client";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import { usePageState } from "../lib/pageState";
 import { useEffect } from "react";
 
