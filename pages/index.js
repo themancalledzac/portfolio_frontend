@@ -24,13 +24,14 @@ function Home() {
       return Router.push("/web");
     }
   }, [indexPageState, photoPageState, webPageState]);
-  function selectPage(page) {
+
+  async function selectPage(page) {
     if (page === "web") {
-      toggleWeb();
-      useRouter("/web");
+      await toggleWeb();
+      // useRouter("/web");
     } else if (page === "photo") {
-      togglePhoto();
-      useRouter("/photo");
+      await togglePhoto();
+      // useRouter("/photo");
     }
   }
 
@@ -42,10 +43,10 @@ function Home() {
     >
       <h1>Launch Page</h1>
 
-      <a onClick={selectPage("web")} href='/web'>
+      <a onClick={() => selectPage("web")} href='/web'>
         Web Design
       </a>
-      <a onClick={selectPage("photo")} href='/photography'>
+      <a onClick={() => selectPage("photo")} href='/photography'>
         Photography
       </a>
     </div>
