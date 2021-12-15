@@ -1,6 +1,7 @@
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "./Header";
 import { usePageState } from "../lib/pageState";
+import { useEffect } from "react";
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -40,6 +41,13 @@ const GlobalStyles = createGlobalStyle`
   button {
     font-family:  --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
+  @media (prefers-color-schema: dark) {
+    body {
+      color: #b0b0b0;
+      background-color: #101010;
+    }
+
+  }
 `;
 
 const InnerStyles = styled.div`
@@ -49,16 +57,15 @@ const InnerStyles = styled.div`
 `;
 
 export default function Page({ children }) {
-  // const {
-  //   indexPageState,
-  //   photoPageState,
-  //   webPageState,
-  //   togglePhoto,
-  //   toggleWeb,
-  // } = usePageState();
-  // if (indexPageState === true) {
-  //   return <p>pageStateTrue</p>;
-  // }
+  const { indexPageState } = usePageState();
+  // console.log(indexPageState);
+
+  useEffect(() => {
+    console.log(indexPageState);
+  }, [indexPageState]);
+
+  if (indexPageState) return <InnerStyles>{children}</InnerStyles>;
+
   return (
     <div>
       <GlobalStyles />

@@ -7,7 +7,7 @@ import Router, { useRouter } from "next/router";
 import { usePageState } from "../lib/pageState";
 import { useEffect } from "react";
 
-function Home() {
+export default function Home() {
   const {
     indexPageState,
     photoPageState,
@@ -28,10 +28,10 @@ function Home() {
   async function selectPage(page) {
     if (page === "web") {
       await toggleWeb();
-      // useRouter("/web");
+      return Router.push("/web");
     } else if (page === "photo") {
       await togglePhoto();
-      // useRouter("/photo");
+      return Router.push("/photography");
     }
   }
 
@@ -43,14 +43,8 @@ function Home() {
     >
       <h1>Launch Page</h1>
 
-      <a onClick={() => selectPage("web")} href='/web'>
-        Web Design
-      </a>
-      <a onClick={() => selectPage("photo")} href='/photography'>
-        Photography
-      </a>
+      <a onClick={() => selectPage("web")}>Web Design</a>
+      <a onClick={() => selectPage("photo")}>Photography</a>
     </div>
   );
 }
-
-export default Home;
