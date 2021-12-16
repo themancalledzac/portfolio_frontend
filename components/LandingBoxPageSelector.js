@@ -4,7 +4,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { usePageState } from "../lib/pageState";
-import { Router } from "next/router";
+import Router from "next/router";
 
 const LandingBoxPageSelector = ({ prop, name, paragraph }) => {
   const { toggleWeb, togglePhoto } = usePageState();
