@@ -6,6 +6,24 @@ import Link from "next/link";
 import Router from "next/router";
 import { usePageState } from "../lib/pageState";
 import { useEffect } from "react";
+import styled from "styled-components";
+import LandingBox from "../components/LandingBox.js";
+
+const Homepage = styled.div`
+  max-width: 95%;
+  background-color: var(--lightGray);
+`;
+
+// const Container = styled.div`
+//   max-width: 800px;
+//   color: white;
+//   background-color: grey;
+//   display: flex;
+//   padding: 20px;
+//   border: 1px solid #000000;
+//   margin-left: auto;
+//   margin-right: auto;
+// `;
 
 export default function Home() {
   const {
@@ -36,15 +54,12 @@ export default function Home() {
   }
 
   return (
-    <div
+    <Homepage
       style={{
         padding: "5rem",
       }}
     >
-      <h1>Launch Page</h1>
-
-      <a onClick={() => selectPage("web")}>Web Design</a>
-      <a onClick={() => selectPage("photo")}>Photography</a>
-    </div>
+      <LandingBox />
+    </Homepage>
   );
 }
