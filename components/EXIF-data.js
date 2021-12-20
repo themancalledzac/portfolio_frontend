@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import EXIF from "exif-js";
 import { Card } from "@mui/material";
+import ImageExample from "./ImageExample";
+import styled from "styled-components";
+
+const ImageWrap = styled.div`
+  width: 400px;
+  height: 400px;
+  border-radius: 6px;
+  margin-top: 7px;
+  background-color: grey;
+`;
 
 function ImageMeta() {
   const [selectedFile, setSelectedFile] = useState();
@@ -14,6 +24,7 @@ function ImageMeta() {
 
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
+    console.log(preview);
 
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
@@ -82,7 +93,7 @@ function ImageMeta() {
         accept='.jpg, .png, .heif, .heic'
         onChange={handleChange}
       />
-      <Card>{selectedFile && <img src={preview} />}</Card>
+      <ImageWrap>{selectedFile && <ImageExample test={preview} />}</ImageWrap>
     </>
   );
 }
