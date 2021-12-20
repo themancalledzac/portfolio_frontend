@@ -1,18 +1,34 @@
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
+import { CardMedia } from "@mui/material";
 
-const StyledImage = styled(Image)`
-  border-radius: 7px;
-`;
+// TODO: Borderradius of image isn't functional currently, also height overlays over next component.
 
-const ImageExample = ({ test }) => {
+const ImageExample = ({ test, height }) => {
   if (!test) return null;
   return (
     <div>
-      <StyledImage src={test} width='400px' height='400' />
+      <img
+        src={test}
+        width='400px'
+        height='auto'
+        sx={{
+          borderRadius: "6px",
+        }}
+      />
     </div>
   );
 };
 
 export default ImageExample;
+
+// <CardMedia
+//   component='img'
+//   src={test}
+//   sx={{
+//     width: "400px",
+//     height: "auto",
+//     borderRadius: "6px",
+//   }}
+// />;

@@ -3,9 +3,9 @@ import ImageMeta from "../components/EXIF-data";
 
 const upload = () => {
   return (
-    <div>
+    <>
       <ImageMeta />
-    </div>
+    </>
   );
 };
 
