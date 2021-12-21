@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EXIF from "exif-js";
-import { Box, Card, Input, Paper } from "@mui/material";
+import { Box, TextField, Input, Paper } from "@mui/material";
 import ImageExample from "./ImageExample";
 import styled from "styled-components";
 // TODO: Research exifr, see if we can switch to get the lens data.
@@ -16,6 +16,21 @@ const ImageHor = styled.img`
 const ImageVer = styled.img`
   text-align: left;
   border-radius: 6px 0px 0px 6px;
+`;
+
+const FormTest = styled(Box)`
+  background-color: white;
+  justify-content: space-between;
+  width: 82%;
+  height: 278px;
+  /* offset-x, offset-y, blur-radius, color, inside */
+  box-shadow: 0px 1px 3px gray inset;
+  border-radius: 6px;
+  padding: 15px;
+  margin-top: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  display: "flex";
 `;
 
 function ImageMeta() {
@@ -135,6 +150,7 @@ function ImageMeta() {
           flexWrap: "wrap",
         }}
       >
+        {/* Our FULL Component when we have a HORIZONTAL image */}
         {imgDirection != "vertical" && (
           <Box
             sx={{
@@ -162,6 +178,7 @@ function ImageMeta() {
                 alignItems: "center",
               }}
             />
+            {/* Our comp with horizontal image and data */}
             {selectedFile && (
               <Paper
                 elevation={3}
@@ -205,10 +222,135 @@ function ImageMeta() {
                     onLoad={imgDimensions}
                   />
                 )}
+                <Box
+                  sx={{
+                    backgroundColor: "white",
+                    justifyContent: "space-between",
+                    width: "82%",
+                    height: "278px",
+                    /* offset-x, offset-y, blur-radius, color, inside */
+                    boxShadow: "0px 1px 3px gray inset",
+                    borderRadius: "6px",
+                    padding: "15px",
+                    marginTop: "15px",
+                    marginRight: "auto",
+                    marginLeft: "auto",
+                    display: "flex",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "100%",
+                      marginTop: "auto",
+                      marginBottom: "auto",
+                    }}
+                  >
+                    {/* Here we have our FORM COMPONENT */}
+                    <Box
+                      sx={{
+                        backgroundColor: "white",
+                        justifyContent: "space-between",
+                        marginRight: "auto",
+                        marginLeft: "auto",
+                        display: "flex",
+                      }}
+                    >
+                      <TextField
+                        required
+                        id='title'
+                        label='Title'
+                        defaultValue='Title of Image'
+                        sx={{
+                          width: "150px",
+                          marginRight: "auto",
+                          marginLeft: "auto",
+                        }}
+                      />
+                      <TextField
+                        required
+                        id='author'
+                        label='Author'
+                        defaultValue='Zechariah Edens'
+                        sx={{
+                          width: "150px",
+                          marginRight: "auto",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        backgroundColor: "white",
+                        justifyContent: "space-between",
+                        marginTop: "15px",
+                        marginRight: "auto",
+                        marginLeft: "auto",
+                        display: "flex",
+                      }}
+                    >
+                      <TextField
+                        required
+                        id='title'
+                        label='Title'
+                        defaultValue='Title of Image'
+                        sx={{
+                          width: "150px",
+                          marginRight: "auto",
+                          marginLeft: "auto",
+                        }}
+                      />
+                      <TextField
+                        required
+                        id='author'
+                        label='Author'
+                        defaultValue='Zechariah Edens'
+                        sx={{
+                          width: "150px",
+                          marginRight: "auto",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        backgroundColor: "white",
+                        justifyContent: "space-between",
+                        marginTop: "15px",
+                        marginRight: "auto",
+                        marginLeft: "auto",
+                        display: "flex",
+                      }}
+                    >
+                      <TextField
+                        required
+                        id='title'
+                        label='Title'
+                        defaultValue='Title of Image'
+                        sx={{
+                          width: "150px",
+                          marginRight: "auto",
+                          marginLeft: "auto",
+                        }}
+                      />
+                      <TextField
+                        required
+                        id='author'
+                        label='Author'
+                        defaultValue='Zechariah Edens'
+                        sx={{
+                          width: "150px",
+                          marginRight: "auto",
+                          marginLeft: "auto",
+                        }}
+                      />
+                    </Box>
+                  </div>
+                </Box>
               </Paper>
             )}
           </Box>
         )}
+        {/* Our FULL Component when we have a VERTICAL image */}
         {imgDirection === "vertical" && (
           <Box
             sx={{
@@ -236,6 +378,7 @@ function ImageMeta() {
                 alignItems: "center",
               }}
             />
+            {/* Our comp with vertical image and data */}
             {selectedFile && (
               <Paper
                 elevation={3}
@@ -248,6 +391,7 @@ function ImageMeta() {
                   justifyContent: "left",
                   marginLeft: "auto",
                   marginRight: "auto",
+                  display: "flex",
                 }}
               >
                 {!imgWidth && (
@@ -279,6 +423,46 @@ function ImageMeta() {
                     onLoad={imgDimensions}
                   />
                 )}
+                <Box
+                  sx={{
+                    backgroundColor: "white",
+                    justifyContent: "space-between",
+                    width: "250px",
+                    height: "325px",
+                    /* offset-x, offset-y, blur-radius, color, inside */
+                    boxShadow: "0px 1px 3px gray inset",
+                    borderRadius: "6px",
+                    padding: "15px",
+                    marginTop: "20px",
+                    marginRight: "auto",
+                    marginLeft: "auto",
+                    display: "flex",
+                  }}
+                >
+                  {/* Here we have our FORM COMPONENT */}
+                  <TextField
+                    required
+                    id='title'
+                    label='Title'
+                    defaultValue='Title of Image'
+                    sx={{
+                      width: "150px",
+                      marginRight: "auto",
+                      marginLeft: "auto",
+                    }}
+                  />
+                  <TextField
+                    required
+                    id='author'
+                    label='Author'
+                    defaultValue='Zechariah Edens'
+                    sx={{
+                      width: "150px",
+                      marginRight: "auto",
+                      marginLeft: "auto",
+                    }}
+                  />
+                </Box>
               </Paper>
             )}
           </Box>
