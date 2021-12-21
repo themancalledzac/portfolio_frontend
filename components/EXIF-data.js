@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EXIF from "exif-js";
-import { Box, Button, Input } from "@mui/material";
+import { Box, Card, Input, Paper } from "@mui/material";
 import ImageExample from "./ImageExample";
 import styled from "styled-components";
 // TODO: Research exifr, see if we can switch to get the lens data.
@@ -9,42 +9,29 @@ import ImageForm from "./ImageForm";
 // https://mutiny.cz/exifr/
 // https://github.com/MikeKovarik/exifr
 
-const ImageWrap = styled.div`
-  width: 400px;
-  height: 400px;
-  border-radius: 6px;
-  margin-top: 7px;
-  background-color: grey;
-  justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
+const ImageHor = styled.img`
+  text-align: left;
+  border-radius: 6px 6px 0px 0px;
+`;
+const ImageVer = styled.img`
+  text-align: left;
+  border-radius: 6px 0px 0px 6px;
 `;
 
-// const UploadPage = styled(Box)`
-//   display: 'flex',
-//   flexWrap: 'wrap',
-//   justify-content: center;
-//   width: 500px;
-//   margin-left: auto;
-//   margin-right: auto;
-// `;
-
-// const UploadForm = styled(Box)`
-//   width: 500px;
-// `;
-
-// const InputType = styled(Input)`
-//   display: block;
-//   margin-left: auto;
-//   margin-right: auto;
-//   text-align: center;
-//   width: 400px;
-// `;
-
 function ImageMeta() {
+  // ------------------------------------------------
+  // OUR LOCAL STATE FOR THIS PAGE
+  // ------------------------------------------------
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
+  const [imgWidth, setImgWidth] = useState();
+  const [imgHeight, setImgHeight] = useState();
+  const [imgDirection, setImgDirection] = useState();
+  const [imageData, setImageData] = useState();
 
+  // ------------------------------------------------
+  // OUR USESTATES to update our state
+  // ------------------------------------------------
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
@@ -59,6 +46,20 @@ function ImageMeta() {
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
+  useEffect(() => {
+    if (imgWidth > imgHeight) {
+      setImgDirection("horizontal");
+    } else {
+      setImgDirection("vertical");
+    }
+    console.log(
+      `Our Image Width: ${imgWidth} and our Image Height: ${imgHeight}, our direction is ${imgDirection}`
+    );
+  }, [imgWidth, imgHeight, imgDirection]);
+
+  // ------------------------------------------------
+  // OUR component functions
+  // ------------------------------------------------
   function handleChange({
     target: {
       files: [file],
@@ -68,7 +69,16 @@ function ImageMeta() {
     getImage(file);
   }
 
-  // display the image
+  function imgDimensions({ target: img }) {
+    console.log(img);
+    console.log(img.offsetWidth);
+    setImgHeight(img.offsetHeight);
+    setImgWidth(img.offsetWidth);
+  }
+
+  // ------------------------------------------------
+  // Display the Image
+  // ------------------------------------------------
   function getImage(file) {
     if (!file || file.length === 0) {
       setSelectedFile(undefined);
@@ -77,7 +87,9 @@ function ImageMeta() {
     setSelectedFile(file);
   }
 
-  // get MetaData
+  // ------------------------------------------------
+  // Get MetaData
+  // ------------------------------------------------
   function getData(file) {
     if (file && file.name) {
       EXIF.getData(file, function () {
@@ -123,88 +135,154 @@ function ImageMeta() {
           flexWrap: "wrap",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            textAlign: "center",
-            alignItems: "center",
-            width: "450px",
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginBottom: "40px",
-          }}
-        >
-          <Input
-            type='file'
-            id='file'
-            accept='.jpg, .png, .heif, .heic'
-            onChange={handleChange}
+        {imgDirection != "vertical" && (
+          <Box
             sx={{
-              display: "block",
-              marginLeft: "auto",
-              marginRight: "auto",
-              width: "400px",
-              height: "40px",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
               alignItems: "center",
-            }}
-          />
-          <Box
-            sx={{
-              width: "400px",
-              height: "400px",
-              borderRadius: "6px",
-              marginTop: "7px",
-              backgroundColor: "gray",
-              justifyContent: "center",
+              width: "450px",
               marginLeft: "auto",
               marginRight: "auto",
+              marginBottom: "40px",
             }}
           >
-            {selectedFile && <ImageExample test={preview} />}
+            <Input
+              type='file'
+              id='file'
+              accept='.jpg, .png, .heif, .heic'
+              onChange={handleChange}
+              sx={{
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: "400px",
+                height: "40px",
+                alignItems: "center",
+              }}
+            />
+            {selectedFile && (
+              <Paper
+                elevation={3}
+                sx={{
+                  width: "400px",
+                  height: "600px",
+                  borderRadius: "6px",
+                  marginTop: "7px",
+                  backgroundColor: "gray",
+                  justifyContent: "left",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+              >
+                {!imgWidth && (
+                  <ImageHor
+                    src={preview}
+                    width={"auto"}
+                    height={"250px"}
+                    textAlign='left'
+                    sx={{
+                      borderRadius: "6px",
+                      textAlign: "left",
+                    }}
+                    onLoad={imgDimensions}
+                  />
+                )}
+                {imgDirection === "vertical" && (
+                  <ImageVer
+                    src={preview}
+                    width={"auto"}
+                    height={"400px"}
+                    onLoad={imgDimensions}
+                  />
+                )}
+                {imgDirection === "horizontal" && (
+                  <ImageHor
+                    src={preview}
+                    width={"400px"}
+                    height={"auto"}
+                    onLoad={imgDimensions}
+                  />
+                )}
+              </Paper>
+            )}
           </Box>
-        </Box>
-        <Box
-          sx={{
-            width: "450px",
-            justifyContent: "center",
-            marginLeft: "auto",
-            marginRight: "auto",
-            textAlign: "center",
-          }}
-        >
+        )}
+        {imgDirection === "vertical" && (
           <Box
             sx={{
-              display: "block",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "650px",
               marginLeft: "auto",
               marginRight: "auto",
-              fontSize: "1.5rem",
-              fontFamily: "sans-serif",
-              width: "400px",
-              height: "40px",
-              justifyContent: "center",
+              marginBottom: "40px",
             }}
           >
-            Create Image
+            <Input
+              type='file'
+              id='file'
+              accept='.jpg, .png, .heif, .heic'
+              onChange={handleChange}
+              sx={{
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: "400px",
+                height: "40px",
+                alignItems: "center",
+              }}
+            />
+            {selectedFile && (
+              <Paper
+                elevation={3}
+                sx={{
+                  width: "600px",
+                  height: "400px",
+                  borderRadius: "6px",
+                  marginTop: "7px",
+                  backgroundColor: "gray",
+                  justifyContent: "left",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+              >
+                {!imgWidth && (
+                  <ImageHor
+                    src={preview}
+                    width={"auto"}
+                    height={"250px"}
+                    textAlign='left'
+                    sx={{
+                      borderRadius: "6px",
+                      textAlign: "left",
+                    }}
+                    onLoad={imgDimensions}
+                  />
+                )}
+                {imgDirection === "vertical" && (
+                  <ImageVer
+                    src={preview}
+                    width={"auto"}
+                    height={"400px"}
+                    onLoad={imgDimensions}
+                  />
+                )}
+                {imgDirection === "horizontal" && (
+                  <ImageHor
+                    src={preview}
+                    width={"400px"}
+                    height={"auto"}
+                    onLoad={imgDimensions}
+                  />
+                )}
+              </Paper>
+            )}
           </Box>
-          <Box
-            sx={{
-              display: "block",
-              width: "400px",
-              height: "400px",
-              justifyContent: "center",
-              marginLeft: "auto",
-              marginRight: "auto",
-              backgroundColor: "gray",
-              borderRadius: "6px",
-              marginTop: "7px",
-            }}
-          >
-            <ImageForm />
-            <Button>Save Image</Button>
-          </Box>
-        </Box>
+        )}
       </Box>
     </>
   );

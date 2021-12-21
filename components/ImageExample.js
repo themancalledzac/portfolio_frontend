@@ -5,16 +5,22 @@ import { CardMedia } from "@mui/material";
 
 // TODO: Borderradius of image isn't functional currently, also height overlays over next component.
 
+const ImageNew = styled.img`
+  text-align: left;
+`;
+
 const ImageExample = ({ test, height }) => {
   if (!test) return null;
   return (
     <div>
-      <img
+      <ImageNew
         src={test}
-        width='400px'
-        height='auto'
+        width='auto'
+        height='200px'
+        textAlign='left'
         sx={{
           borderRadius: "6px",
+          textAlign: "left",
         }}
       />
     </div>
