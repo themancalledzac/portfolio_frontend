@@ -36,6 +36,7 @@ const ImageVer = styled.img`
 function ImageMeta() {
   // our useQuery to get our Lens data
   const { loading, error, data } = useQuery(ALL_LENS_QUERY);
+
   // ------------------------------------------------
   // OUR LOCAL STATE FOR THIS PAGE
   // ------------------------------------------------
@@ -44,6 +45,8 @@ function ImageMeta() {
   const [imgWidth, setImgWidth] = useState();
   const [imgHeight, setImgHeight] = useState();
   const [imgDirection, setImgDirection] = useState();
+  const [lensState, setLensState] = useState();
+  const [lensSelect, setLensSelect] = useState();
   const [imageData, setImageData] = useState();
 
   // ------------------------------------------------
@@ -62,6 +65,22 @@ function ImageMeta() {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
+
+  useEffect(() => {
+    console.log(data);
+    let lensArray = data?.getLenses;
+    console.log(lensArray);
+    setLensState(lensArray);
+    // setLensState({ data });
+    console.log(data);
+  }, [data]);
+
+  useEffect(() => {
+    if (lensState) {
+      console.log(lensState);
+      // console.log(lensState.getLenses);
+    }
+  }, [lensState]);
 
   useEffect(() => {
     if (imgWidth > imgHeight) {
@@ -85,6 +104,10 @@ function ImageMeta() {
     getData(file);
     getImage(file);
   }
+
+  const handleLensChange = (event) => {
+    setLensSelect(event.target.value);
+  };
 
   function imgDimensions({ target: img }) {
     console.log(img);
@@ -189,7 +212,7 @@ function ImageMeta() {
                   height: "670px",
                   borderRadius: "6px",
                   marginTop: "7px",
-                  backgroundColor: "gray",
+                  backgroundColor: "#b3b3b3",
                   justifyContent: "center",
                   alignItems: "center",
                   marginLeft: "auto",
@@ -299,14 +322,22 @@ function ImageMeta() {
                         id='lens'
                         select
                         label='Lens'
-                        defaultValue='Dropdown of Lenses'
+                        value={lensSelect}
+                        onChange={handleLensChange}
+                        SelectProps={{ native: true }}
                         sx={{
                           width: "150px",
                           marginRight: "auto",
                           marginLeft: "auto",
                           width: "96%",
                         }}
-                      />
+                      >
+                        {lensState?.map((lens) => (
+                          <option key={lens._id} value={lens.name}>
+                            {lens.name}
+                          </option>
+                        ))}
+                      </TextField>
                     </Box>
                     <Box
                       sx={{
@@ -344,9 +375,9 @@ function ImageMeta() {
                     >
                       <TextField
                         required
-                        id='title'
-                        label='Title'
-                        defaultValue='Title of Image'
+                        id='keywords'
+                        label='Keywords'
+                        defaultValue='Keywords'
                         sx={{
                           width: "150px",
                           marginRight: "auto",
