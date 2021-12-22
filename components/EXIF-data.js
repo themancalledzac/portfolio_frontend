@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EXIF from "exif-js";
-import { Box, TextField, Input, Paper } from "@mui/material";
-import ImageExample from "./ImageExample";
+import { Box, TextField, Input, Paper, Button } from "@mui/material";
+import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
 // TODO: Research exifr, see if we can switch to get the lens data.
 import exifr from "exifr";
@@ -9,6 +9,21 @@ import ImageForm from "./ImageForm";
 // https://mutiny.cz/exifr/
 // https://github.com/MikeKovarik/exifr
 
+// GQL QUERY SEARCH FOR LENSES
+const ALL_LENS_QUERY = gql`
+  query getLensQuery {
+    getLenses {
+      _id
+      name
+      aperture
+      fixedLens
+      focalLength
+      brand
+    }
+  }
+`;
+
+// STYLED COMPONENTS
 const ImageHor = styled.img`
   text-align: left;
   border-radius: 6px 6px 0px 0px;
@@ -18,22 +33,9 @@ const ImageVer = styled.img`
   border-radius: 6px 0px 0px 6px;
 `;
 
-const FormTest = styled(Box)`
-  background-color: white;
-  justify-content: space-between;
-  width: 82%;
-  height: 278px;
-  /* offset-x, offset-y, blur-radius, color, inside */
-  box-shadow: 0px 1px 3px gray inset;
-  border-radius: 6px;
-  padding: 15px;
-  margin-top: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  display: "flex";
-`;
-
 function ImageMeta() {
+  // our useQuery to get our Lens data
+  const { loading, error, data } = useQuery(ALL_LENS_QUERY);
   // ------------------------------------------------
   // OUR LOCAL STATE FOR THIS PAGE
   // ------------------------------------------------
@@ -184,11 +186,12 @@ function ImageMeta() {
                 elevation={3}
                 sx={{
                   width: "400px",
-                  height: "600px",
+                  height: "670px",
                   borderRadius: "6px",
                   marginTop: "7px",
                   backgroundColor: "gray",
-                  justifyContent: "left",
+                  justifyContent: "center",
+                  alignItems: "center",
                   marginLeft: "auto",
                   marginRight: "auto",
                 }}
@@ -225,7 +228,7 @@ function ImageMeta() {
                 <Box
                   sx={{
                     backgroundColor: "white",
-                    justifyContent: "space-between",
+                    alignItems: "center",
                     width: "82%",
                     height: "278px",
                     /* offset-x, offset-y, blur-radius, color, inside */
@@ -238,6 +241,7 @@ function ImageMeta() {
                     display: "flex",
                   }}
                 >
+                  {/* Our div containing the FORM */}
                   <div
                     style={{
                       width: "100%",
@@ -255,6 +259,7 @@ function ImageMeta() {
                         display: "flex",
                       }}
                     >
+                      {/* Title of the Image, must be filled out */}
                       <TextField
                         required
                         id='title'
@@ -266,6 +271,7 @@ function ImageMeta() {
                           marginLeft: "auto",
                         }}
                       />
+                      {/* Author of the Image, auto me, could change? */}
                       <TextField
                         required
                         id='author'
@@ -288,26 +294,41 @@ function ImageMeta() {
                         display: "flex",
                       }}
                     >
+                      {/* Lens - Needs to be a dropdown with all available lenses? fml */}
                       <TextField
-                        required
-                        id='title'
-                        label='Title'
-                        defaultValue='Title of Image'
+                        id='lens'
+                        select
+                        label='Lens'
+                        defaultValue='Dropdown of Lenses'
                         sx={{
                           width: "150px",
                           marginRight: "auto",
                           marginLeft: "auto",
+                          width: "96%",
                         }}
                       />
+                    </Box>
+                    <Box
+                      sx={{
+                        backgroundColor: "white",
+                        justifyContent: "space-between",
+                        marginTop: "15px",
+                        marginRight: "auto",
+                        marginLeft: "auto",
+                        display: "flex",
+                      }}
+                    >
+                      {/* Google Map link, required, must be filled out */}
                       <TextField
                         required
-                        id='author'
-                        label='Author'
-                        defaultValue='Zechariah Edens'
+                        id='google'
+                        label='Google Maps Link'
+                        defaultValue='Please share link'
                         sx={{
                           width: "150px",
                           marginRight: "auto",
                           marginLeft: "auto",
+                          width: "96%",
                         }}
                       />
                     </Box>
@@ -330,22 +351,35 @@ function ImageMeta() {
                           width: "150px",
                           marginRight: "auto",
                           marginLeft: "auto",
-                        }}
-                      />
-                      <TextField
-                        required
-                        id='author'
-                        label='Author'
-                        defaultValue='Zechariah Edens'
-                        sx={{
-                          width: "150px",
-                          marginRight: "auto",
-                          marginLeft: "auto",
+                          width: "96%",
                         }}
                       />
                     </Box>
                   </div>
                 </Box>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  {/* TODO: Change Color to a main color */}
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    sx={{
+                      width: "90%",
+                      padding: "15px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                  >
+                    Save Image
+                  </Button>
+                </div>
               </Paper>
             )}
           </Box>
