@@ -1,3 +1,10 @@
+// TODO: After selecting an image, let's hide our upload button
+// TODO: After hiding the upload component, add a red 'new' button in the top right of the current image
+// TODO: THOUGHT: using the tilt.js Parallax styling for a mobile 'tilt' left/right to view which item to click (photo/coding)
+//       This would be desktop using the mouse, or mobile just tilting the phone(? can we do that without an app)
+
+
+
 import React, { useEffect, useState } from "react";
 import EXIF from "exif-js";
 import { Box, TextField, Input, Paper, Button } from "@mui/material";
@@ -47,7 +54,7 @@ function ImageMeta() {
   const [imgDirection, setImgDirection] = useState();
   const [lensState, setLensState] = useState();
   const [lensSelect, setLensSelect] = useState();
-  const [imageData, setImageData] = useState();
+  const [imageData, setImageData] = useState({});
 
   // ------------------------------------------------
   // OUR USESTATES to update our state
@@ -141,30 +148,66 @@ function ImageMeta() {
           let exposureDenominator = EXIF.getTag(
             this,
             "ExposureTime"
-          ).denominator;
-          let exposureNumerator = EXIF.getTag(this, "ExposureTime").numerator;
-          let exposure = `${exposureNumerator}/${exposureDenominator}`;
-          let fNumber =
+            ).denominator;
+            let exposureNumerator = EXIF.getTag(this, "ExposureTime").numerator;
+            let exposure = `${exposureNumerator}/${exposureDenominator}`;
+            let fNumber =
             EXIF.getTag(this, "FNumber").numerator /
             EXIF.getTag(this, "FNumber").denominator;
-          let iso = EXIF.getTag(this, "ISOSpeedRatings");
-          let date = EXIF.getTag(this, "DateTimeOriginal").split(" ")[0];
-          let time = EXIF.getTag(this, "DateTimeOriginal").split(" ")[1];
-          let shutterSpeed = EXIF.getTag(this, "ShutterSpeedValue");
-          let focalLength =
+            let iso = EXIF.getTag(this, "ISOSpeedRatings");
+            let date = EXIF.getTag(this, "DateTimeOriginal").split(" ")[0];
+            let time = EXIF.getTag(this, "DateTimeOriginal").split(" ")[1];
+            let shutterSpeed = EXIF.getTag(this, "ShutterSpeedValue");
+            let focalLength =
             EXIF.getTag(this, "FocalLength").numerator /
             EXIF.getTag(this, "FocalLength").denominator;
-          let example = EXIF.getAllTags(this);
+            let example = EXIF.getAllTags(this);
+            
+            console.log(exifData);
+            console.log(example);
+            console.log(example.Artist);
+          } else {
+            console.log("No EXIF data found in image '" + file.name + "'.");
+          }
+          // TODO: Add all the pertinent data to our image Data Object
+          // setImageData({ ...imageData, key:val })
 
-          console.log(exifData);
-          console.log(example);
-          console.log(example.Artist);
-        } else {
-          console.log("No EXIF data found in image '" + file.name + "'.");
-        }
-      });
+        });
+      }
     }
-  }
+    
+    // ------------------------------------------------
+    // TODO: Submit!
+    // const submitForm = () => {
+      // FIRST THING(*)
+      // uploadImage()*** (We return failed(error code), or the URL of the image)
+        // TODO: Error if not
+        // TODO: Module that pops up saying "Failed upload, please try again or some shit"
+        // TODO: return(exit function)
+        // setImageData({ ...imageData, googleImageLink: 'data'})
+    // TODO: 
+      // Here we need to update all information
+        // TODO: Is Author Correct
+        // TODO: Is title included
+        // TODO: Is GoogleMaps included
+      // TODO: 
+            
+    
+    // }
+    // ------------------------------------------------
+    
+    // ------------------------------------------------
+    // TODO: UPLOAD IMAGE
+    // const uploadImage = () => {
+      // TODO: get image from our upload
+      // ?
+      // TODO: on our initial slick to select our image, I would assume that we can use that same image(data?)/this.etc etc to upload the image.
+      // TODO: On successful upload (we get back successful from the upload( need to check CLOUDINARY for documentation on how to get this to work.))
+      // TODO: return failed for no, or the URL of the image;
+    // }
+    // ------------------------------------------------
+
+    // }
 
   return (
     <>
@@ -354,7 +397,6 @@ function ImageMeta() {
                         required
                         id='google'
                         label='Google Maps Link'
-                        defaultValue='Please share link'
                         sx={{
                           width: "150px",
                           marginRight: "auto",
@@ -377,7 +419,6 @@ function ImageMeta() {
                         required
                         id='keywords'
                         label='Keywords'
-                        defaultValue='Keywords'
                         sx={{
                           width: "150px",
                           marginRight: "auto",
